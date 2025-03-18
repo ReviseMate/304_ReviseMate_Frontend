@@ -1,3 +1,4 @@
+import { messages } from './../../../mock-api/common/messages/data';
 import { Component, inject, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatModule } from 'app/mat.modules';
@@ -19,20 +20,24 @@ export class FichesComponent {
 
     private uow = inject(UowService);
     private sanitizer = inject(DomSanitizer);
+    message: string = '';
     user: User = JSON.parse(localStorage.getItem("user"));
 
     fiches: Fiche[] = [];
 
     ngOnInit(): void {
         let user = JSON.parse(localStorage.getItem("user"));
-        this.uow.fiches.getAll().subscribe((data: any) => {
-            console.log(data);
-            if (data !== null) {
-                // Sanitize and convert SafeHtml back to string
-                this.fiches = data.map((fiche: Fiche) => {
-                    fiche.contenu = this.sanitizeHtml(fiche.contenu).toString(); // Convert SafeHtml to string
-                    return fiche;
-                });
+        this.uow.fiches.getAll().subscribe((res: any) => {
+            if (res.success) {
+                if (res.data.length == 0) {
+                    this.message = "Aucune fiche trouvée";
+                } else {
+                    this.fiches = res.data.map((fiche: Fiche) => {
+                        fiche.contenu = this.sanitizeHtml(fiche.contenu).toString(); // Convert SafeHtml to string
+                        return fiche;
+                    });
+
+                }
             } else {
                 console.log("No data fetched");
             }
@@ -44,8 +49,7 @@ export class FichesComponent {
     }
 
     truncateText(text: string, limit: number): SafeHtml {
-        console.log("===========");
-        console.log(text);
+
 
         // Suppression de la partie "SafeValue must use [property]=binding:"
         text = text.replace(/^SafeValue must use \[property\]=binding:/, '').trim();

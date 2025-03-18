@@ -1,10 +1,15 @@
-export class Quiz{
-    id: string
-    date_score: Date;
-    id_carte: string;
-    id_quiz: string;
-    score: number;
-    type: string;
+export interface Quiz {
+    type?: string;
+    _id?: string;
     titre: string;
-    id_utilisateur:string;
-}
+    id_fiche?: string;
+    id_utilisateur: string;
+    scores?: {
+      correctAnswers: number;
+      totalQuestions: number;
+      date: Date;
+    }[];
+    date_score?: Date;
+    correctAnswers?: number;
+    totalQuestions?: number;
+  }

@@ -18,7 +18,7 @@ export class SuperService <T>  {
 
     getAll = () => this.http.get<T>(`${this.url}/${this.controller}`);
 
-    put = (id: number | string, o: T) => this.http.patch<any>(`${this.url}/${this.controller}/${id}`, o);
+    put = (id: string | string, o: T) => this.http.patch<any>(`${this.url}/${this.controller}/${id}`, o);
 
     get = () => this.http.get<T[]>(`${this.url}/${this.controller}/get`);
 
@@ -26,7 +26,7 @@ export class SuperService <T>  {
 
     getOne = (id: any) => this.http.get<T>(`${this.url}/${this.controller}/${id}`);
 
-    post = (o: T) => this.http.post<T>(`${this.url}/${this.controller}/post`, o);
+    post = (o: T) => this.http.post<T>(`${this.url}/${this.controller}`, o);
 
 
     patch(id: number, model: { op: string, path: string, value: any }[]) {

@@ -3,7 +3,7 @@ import { Component, inject, TemplateRef, ViewChild, ViewEncapsulation } from '@a
 import { CommonModule } from '@angular/common';
 import { QuillModule } from 'ngx-quill';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UowService } from 'app/services/uow.service';
 import { Fiche } from 'app/models/Fiche';
 import { MatDialog } from '@angular/material/dialog';
@@ -28,6 +28,7 @@ export class EditFicheComponent {
     private uow = inject(UowService)
     private dialog = inject(MatDialog)
     private route = inject(ActivatedRoute)
+    private _router = inject(Router)
 
     fiche: Fiche = new Fiche();
 
@@ -35,20 +36,22 @@ export class EditFicheComponent {
         this.id = this.route.snapshot.paramMap.get('id') || '';
         console.log('ID de la fiche : ', this.id);
         this.uow.fiches.getOne(this.id).subscribe((e: any) => {
-            this.fiche = e
-            this.content = e.contenu
-            this.ficheName = e.titre
+            this.fiche = e.data
+            this.content = e.data.contenu
+            this.ficheName = e.data.titre
         })
     }
 
     // Méthode pour enregistrer la fiche
     saveFiche() {
-        console.log('Fiche sauvegardée avec le contenu : ', this.content);
+    console.log('Fiche sauvegardée avec le contenu : ', this.content);
         this.fiche.contenu = this.content
         this.fiche.titre = this.ficheName
         this.uow.fiches.put(this.id, this.fiche).subscribe((res: any) => {
             if (res != null) {
                this.InfoPoppup();
+               this._router.navigateByUrl('/user/fiches');
+
             }else{
                 console.log('Erreur lors de l\'enregistrement de la fiche');
                 this.PoppupContent='Erreur lors de l\'enregistrement de la fiche';
