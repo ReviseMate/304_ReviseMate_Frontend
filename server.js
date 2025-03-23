@@ -3,7 +3,7 @@ const path = require('path');
 const app = express();
 
 // Serve static files from the Angular app
-app.use(express.static(path.join(__dirname, 'dist/dist/fuse/')));
+app.use(express.static(path.join(__dirname, 'dist/fuse/')));
 
 // Handle all other routes by serving the Angular app
 app.get('*', (req, res) => {
