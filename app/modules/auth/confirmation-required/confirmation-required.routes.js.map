@@ -1,0 +1,1 @@
+{"version":3,"file":"confirmation-required.routes.js","sourceRoot":"","sources":["../../../../../../src/app/modules/auth/confirmation-required/confirmation-required.routes.ts"],"names":[],"mappings":"AACA,OAAO,EAAE,iCAAiC,EAAE,0CAA+E;AAE3H,eAAe;IACX;QACI,IAAI,EAAO,EAAE;QACb,SAAS,EAAE,iCAAiC;KAC/C;CACM,CAAC"}
